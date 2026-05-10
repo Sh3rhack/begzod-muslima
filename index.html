@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <title>Begzod & Muslima To'yi | 21.06.2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;500;600;700&family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; overflow: hidden; background: #1a3a4a; height: 100dvh; width: 100vw; }
+        .great-vibes { font-family: 'Great Vibes', cursive; }
+        .playfair { font-family: 'Playfair Display', serif; }
+        .amiri { font-family: 'Amiri', serif; }
+
+        /* ===== CALL SCREEN ===== */
+        .call-screen {
+            position: fixed; inset: 0; z-index: 50;
+            background: linear-gradient(170deg, #0f2027 0%, #203a43 40%, #2c5364 100%);
+            display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+            padding: 50px 24px 45px; transition: all 0.8s cubic-bezier(0.4,0,0.2,1);
+        }
+        .call-screen.hide { opacity: 0; transform: scale(1.15); pointer-events: none; }
+
+        .star { position: absolute; width: 2px; height: 2px; background: #fff; border-radius: 50%; animation: twinkle var(--dur) ease-in-out infinite; }
+        @keyframes twinkle { 0%,100%{opacity:.15;transform:scale(1)}50%{opacity:.9;transform:scale(1.5)} }
+
+        .avatar-container { position: relative; display: flex; align-items: center; justify-content: center; }
+        .pulse-ring { position: absolute; width: 170px; height: 170px; border: 2px solid rgba(201,168,76,.35); border-radius: 50%; animation: pulse-ring 2.2s ease-out infinite; }
+        .pulse-ring:nth-child(2){animation-delay:.7s} .pulse-ring:nth-child(3){animation-delay:1.4s}
+        @keyframes pulse-ring { 0%{transform:scale(1);opacity:.7}100%{transform:scale(2.3);opacity:0} }
+
+        .avatar {
+            width: 130px; height: 130px; border-radius: 50%;
+            background: linear-gradient(135deg, #C9A84C, #E8C84A);
+            display: flex; align-items: center; justify-content: center;
+            border: 3px solid rgba(255,255,255,.25); position: relative; z-index: 2;
+            box-shadow: 0 0 50px rgba(201,168,76,.35);
+        }
+        .envelope-float { animation: envelope-float 2.5s ease-in-out infinite; }
+        @keyframes envelope-float { 0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6px) rotate(2deg)} }
+
+        .phone-shake { animation: phone-shake .4s ease-in-out infinite; }
+        @keyframes phone-shake { 0%,100%{transform:rotate(0)}25%{transform:rotate(15deg)}75%{transform:rotate(-15deg)} }
+
+        .swipe-track {
+            position: relative; width: 100%; max-width: 300px; height: 60px; border-radius: 30px;
+            background: rgba(201,168,76,.12); border: 1px solid rgba(201,168,76,.25); overflow: hidden; touch-action: none;
+        }
+        .swipe-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; border-radius: 30px; background: linear-gradient(90deg,rgba(201,168,76,.25),rgba(201,168,76,.15)); transition: width .05s linear; }
+        .swipe-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.45); font-size: 13px; font-weight: 500; letter-spacing: .06em; pointer-events: none; transition: opacity .3s; }
+        .swipe-btn {
+            position: absolute; left: 4px; top: 4px; width: 52px; height: 52px; border-radius: 50%;
+            background: linear-gradient(135deg, #C9A84C, #E8C84A); display: flex; align-items: center; justify-content: center;
+            color: #fff; cursor: grab; z-index: 5; box-shadow: 0 4px 20px rgba(201,168,76,.4); transition: transform .3s cubic-bezier(.4,0,.2,1), box-shadow .3s;
+        }
+        .swipe-btn:active{cursor:grabbing} .swipe-btn.reached{background:linear-gradient(135deg,#E8C84A,#F0D860);box-shadow:0 4px 30px rgba(201,168,76,.6)}
+
+        .decline-btn { width: 56px; height: 56px; border-radius: 50%; background: rgba(239,68,68,.12); border: 1px solid rgba(239,68,68,.25); display: flex; align-items: center; justify-content: center; color: #ef4444; transition: all .3s; }
+        .decline-btn:active{transform:scale(.9)}
+
+        /* ===== FLASH ===== */
+        .flash-overlay { position: fixed; inset: 0; z-index: 100; pointer-events: none; background: radial-gradient(circle,rgba(201,168,76,.5),rgba(232,200,74,.2),transparent); animation: flash 1.2s ease-out forwards; }
+        @keyframes flash { 0%{opacity:1;transform:scale(.3)}100%{opacity:0;transform:scale(4)} }
+
+        /* ===== INVITATION ===== */
+        .invitation-screen {
+            position: fixed; inset: 0; z-index: 40;
+            background: #FFFEF9;
+            overflow-y: auto; overflow-x: hidden;
+            opacity: 0; transform: translateY(100%);
+            transition: all 1.1s cubic-bezier(0.4,0,0.2,1);
+        }
+        .invitation-screen.show { opacity: 1; transform: translateY(0); }
+
+        .islamic-bg {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 0L80 40L40 80L0 40Z' fill='none' stroke='%23C9A84C' stroke-width='0.4' opacity='0.06'/%3E%3Cpath d='M40 12L68 40L40 68L12 40Z' fill='none' stroke='%23C9A84C' stroke-width='0.3' opacity='0.04'/%3E%3C/svg%3E");
+        }
+
+        .corner-decor { position: absolute; width: 35px; height: 35px; }
+        .corner-decor::before,.corner-decor::after { content:''; position:absolute; background:#C9A84C; }
+        .corner-tl{top:0;left:0} .corner-tl::before{top:0;left:0;width:35px;height:2px} .corner-tl::after{top:0;left:0;width:2px;height:35px}
+        .corner-tr{top:0;right:0} .corner-tr::before{top:0;right:0;width:35px;height:2px} .corner-tr::after{top:0;right:0;width:2px;height:35px}
+        .corner-bl{bottom:0;left:0} .corner-bl::before{bottom:0;left:0;width:35px;height:2px} .corner-bl::after{bottom:0;left:0;width:2px;height:35px}
+        .corner-br{bottom:0;right:0} .corner-br::before{bottom:0;right:0;width:35px;height:2px} .corner-br::after{bottom:0;right:0;width:2px;height:35px}
+
+        .ornament-divider { display:flex; align-items:center; gap:10px; justify-content:center; }
+        .ornament-line { width:50px; height:1px; background:linear-gradient(90deg,transparent,#C9A84C,transparent); }
+        .ornament-diamond { width:7px; height:7px; background:#C9A84C; transform:rotate(45deg); flex-shrink:0; }
+
+        .inv-element { opacity:0; transform:translateY(25px); transition:all .9s cubic-bezier(.4,0,.2,1); }
+        .inv-element.visible { opacity:1; transform:translateY(0); }
+
+        .gold-shimmer {
+            background: linear-gradient(90deg, #8B6914, #C9A84C, #F0D860, #C9A84C, #8B6914);
+            background-size: 300% 100%; -webkit-background-clip:text; background-clip:text;
+            -webkit-text-fill-color: transparent; animation: shimmer 4s linear infinite;
+        }
+        @keyframes shimmer { 0%{background-position:-300% 0}100%{background-position:300% 0} }
+
+        .crescent-glow { animation: crescent-glow 3s ease-in-out infinite; }
+        @keyframes crescent-glow { 0%,100%{filter:drop-shadow(0 0 6px rgba(201,168,76,.3))}50%{filter:drop-shadow(0 0 18px rgba(201,168,76,.6))} }
+
+        .islamic-arch {
+            position: relative; border: 2px solid rgba(201,168,76,.4);
+            border-radius: 50% 50% 4px 4px / 28% 28% 4px 4px;
+            padding: 28px 18px; background: rgba(255,255,255,.85); backdrop-filter: blur(8px);
+        }
+
+        .cal-card { background:#fff; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,.05); border:1px solid rgba(201,168,76,.2); overflow:hidden; }
+        .cal-header { background:linear-gradient(135deg,#C9A84C,#E8C84A); padding:12px 16px; text-align:center; color:#fff; }
+        .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; padding:12px 10px; }
+        .cal-day-name { text-align:center; font-size:10px; color:#999; font-weight:600; padding:4px 0; }
+        .cal-day { text-align:center; font-size:13px; color:#555; padding:6px 0; border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; margin:0 auto; font-weight:500; }
+        .cal-day.highlight { background:linear-gradient(135deg,#C9A84C,#E8C84A); color:#fff; font-weight:700; box-shadow:0 2px 12px rgba(201,168,76,.4); animation:cal-pulse 2s ease-in-out infinite; }
+        @keyframes cal-pulse { 0%,100%{box-shadow:0 2px 12px rgba(201,168,76,.4)}50%{box-shadow:0 2px 24px rgba(201,168,76,.7)} }
+
+        .map-btn { display:flex; align-items:center; justify-content:center; gap:10px; padding:13px 20px; border-radius:12px; font-weight:600; font-size:13px; transition:all .3s; width:100%; border:none; cursor:pointer; text-decoration:none; }
+        .map-btn-google { background:linear-gradient(135deg,#1A6B5A,#2D9B7E); color:#fff; }
+        .map-btn-google:hover{box-shadow:0 6px 24px rgba(26,107,90,.35);transform:translateY(-2px)}
+        .map-btn-yandex { background:#fff; color:#8B6914; border:1.5px solid rgba(201,168,76,.4)!important; }
+        .map-btn-yandex:hover{background:rgba(201,168,76,.05);transform:translateY(-2px)}
+
+        .form-input {
+            width:100%; padding:13px 16px; border-radius:10px;
+            border:1.5px solid rgba(201,168,76,.3); background:#fff;
+            font-size:14px; font-family:'Inter',sans-serif; color:#3a2a10;
+            transition:border-color .3s,box-shadow .3s; outline:none;
+        }
+        .form-input::placeholder{color:#bbb} .form-input:focus{border-color:#C9A84C;box-shadow:0 0 0 3px rgba(201,168,76,.1)}
+        .form-input.error{border-color:#ef4444;box-shadow:0 0 0 3px rgba(239,68,68,.08)}
+        textarea.form-input{resize:none;min-height:80px}
+
+        .radio-group { display:flex; gap:12px; }
+        .radio-card {
+            flex:1; padding:12px 16px; border-radius:10px; border:1.5px solid rgba(201,168,76,.25);
+            background:#fff; cursor:pointer; text-align:center; font-size:14px; font-weight:500;
+            color:#8B6914; transition:all .3s; display:flex; align-items:center; justify-content:center; gap:8px;
+        }
+        .radio-card:hover{border-color:rgba(201,168,76,.5)}
+        .radio-card.active { background:rgba(201,168,76,.1); border-color:#C9A84C; color:#8B6914; font-weight:600; }
+        .radio-card input{display:none}
+
+        .guest-btns { display:flex; gap:8px; flex-wrap:wrap; }
+        .guest-btn {
+            width:44px; height:44px; border-radius:10px; border:1.5px solid rgba(201,168,76,.25);
+            background:#fff; cursor:pointer; font-size:15px; font-weight:600; color:#8B6914;
+            transition:all .3s; display:flex; align-items:center; justify-content:center;
+        }
+        .guest-btn:hover{border-color:rgba(201,168,76,.5)}
+        .guest-btn.active { background:rgba(201,168,76,.1); border-color:#C9A84C; font-weight:700; color:#8B6914; }
+
+        .submit-btn {
+            width:100%; padding:14px; border-radius:12px; border:none;
+            background:linear-gradient(135deg,#C9A84C,#E8C84A); color:#fff;
+            font-size:15px; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif;
+            transition:all .3s; box-shadow:0 4px 16px rgba(201,168,76,.3);
+        }
+        .submit-btn:hover{box-shadow:0 6px 28px rgba(201,168,76,.5);transform:translateY(-2px)}
+        .submit-btn:active{transform:translateY(0)}
+        .submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+        .submit-success { text-align:center; padding:20px; animation:fadeInUp .5s ease; }
+        @keyframes fadeInUp { from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)} }
+
+        .gold-particle { position:fixed; border-radius:50%; pointer-events:none; z-index:45; background:#C9A84C; opacity:0; animation:float-down linear infinite; }
+        @keyframes float-down { 0%{transform:translateY(-10px) rotate(0) translateX(0);opacity:0}10%{opacity:.4}50%{transform:translateY(50vh) rotate(180deg) translateX(15px);opacity:.3}90%{opacity:.08}100%{transform:translateY(100vh) rotate(360deg) translateX(-10px);opacity:0} }
+
+        .countdown-box { background:rgba(201,168,76,.06); border:1px solid rgba(201,168,76,.15); border-radius:10px; padding:10px 14px; min-width:65px; text-align:center; }
+
+        .toast-call { position:fixed; bottom:30px; left:50%; transform:translateX(-50%) translateY(100px); background:rgba(239,68,68,.9); color:#fff; padding:14px 24px; border-radius:12px; font-size:14px; font-weight:500; z-index:200; backdrop-filter:blur(10px); transition:transform .4s cubic-bezier(.4,0,.2,1); white-space:nowrap; }
+        .toast-call.show{transform:translateX(-50%) translateY(0)}
+
+        .venue-card { background:#fff; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,.04); border:1px solid rgba(201,168,76,.15); }
+
+        .invitation-screen::-webkit-scrollbar{width:3px} .invitation-screen::-webkit-scrollbar-track{background:transparent} .invitation-screen::-webkit-scrollbar-thumb{background:rgba(201,168,76,.25);border-radius:2px}
+
+        .envelope-img { animation: envelope-breathe 3s ease-in-out infinite; }
+        @keyframes envelope-breathe { 0%,100%{transform:scale(1)}50%{transform:scale(1.03)} }
+
+        /* Music Player */
+        .music-player {
+            position: fixed; bottom: 0; left: 0; right: 0; z-index: 60;
+            background: rgba(255,255,255,.95); backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(201,168,76,.2); padding: 8px 16px;
+            display: flex; align-items: center; gap: 12px;
+            transform: translateY(100%); transition: transform .5s cubic-bezier(.4,0,.2,1);
+        }
+        .music-player.show { transform: translateY(0); }
+        .music-btn {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, #C9A84C, #E8C84A);
+            border: none; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; color: #fff; flex-shrink: 0; transition: all .3s;
+        }
+        .music-btn:hover { box-shadow: 0 4px 16px rgba(201,168,76,.4); }
+        .music-btn.playing .play-icon { display: none; }
+        .music-btn.playing .pause-icon { display: block; }
+        .music-btn:not(.playing) .play-icon { display: block; }
+        .music-btn:not(.playing) .pause-icon { display: none; }
+        .music-progress { flex: 1; height: 3px; background: rgba(201,168,76,.15); border-radius: 2px; overflow: hidden; }
+        .music-progress-fill { height: 100%; background: linear-gradient(90deg, #C9A84C, #E8C84A); width: 0%; transition: width .1s linear; }
+
+        .form-card {
+            background: #fff; border-radius: 20px;
+            box-shadow: 0 4px 24px rgba(0,0,0,.05);
+            border: 1px solid rgba(201,168,76,.15);
+            padding: 28px 22px;
+        }
+
+        /* Language Switcher */
+        .lang-switcher {
+            position: absolute; top: 16px; right: 16px; z-index: 55;
+            display: flex; background: rgba(255,255,255,.8); backdrop-filter: blur(8px);
+            border-radius: 20px; border: 1px solid rgba(201,168,76,.2); overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,.05);
+        }
+        .lang-btn {
+            padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer;
+            background: transparent; border: none; color: #8B6914; transition: all .2s;
+        }
+        .lang-btn.active {
+            background: linear-gradient(135deg, #C9A84C, #E8C84A); color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== CALL SCREEN ===== -->
+<div id="callScreen" class="call-screen">
+    <div id="starsContainer" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
+    <div class="text-center relative z-10">
+        <div class="text-white/40 text-sm font-medium tracking-wider" id="currentTime"></div>
+    </div>
+    <div class="flex flex-col items-center relative z-10">
+        <div class="avatar-container mb-2">
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring"></div>
+            <div class="avatar">
+                <svg class="envelope-float" width="52" height="52" viewBox="0 0 64 64" fill="none">
+                    <rect x="6" y="16" width="52" height="36" rx="4" fill="#fff" opacity=".95"/>
+                    <path d="M6 20L32 38L58 20" stroke="#C9A84C" stroke-width="2.5"/>
+                    <path d="M6 16L32 36L58 16" stroke="#B8860B" stroke-width="1.5" opacity=".5"/>
+                    <circle cx="32" cy="28" r="5" fill="#C9A84C" opacity=".2"/>
+                    <path d="M29 28L31 30L35 26" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+        <div class="text-white text-2xl font-semibold tracking-tight mt-7 playfair">Begzod & Muslima</div>
+        <div class="text-white/50 text-sm mt-2 flex items-center gap-2">
+            <iconify-icon icon="lucide:mail" width="14" class="phone-shake" style="color:#E8C84A"></iconify-icon>
+            <span data-i18n="call_label">To'y taklifnomasi</span>
+        </div>
+    </div>
+    <div class="flex flex-col items-center gap-5 w-full relative z-10">
+        <div class="swipe-track" id="swipeTrack">
+            <div class="swipe-fill" id="swipeFill"></div>
+            <div class="swipe-text" id="swipeText" data-i18n="call_swipe">Qabul qilish</div>
+            <div class="swipe-btn" id="swipeBtn">
+                <iconify-icon icon="lucide:chevron-right" width="22"></iconify-icon>
+            </div>
+        </div>
+        <button class="decline-btn" id="declineBtn">
+            <iconify-icon icon="lucide:x" width="24"></iconify-icon>
+        </button>
+        <div class="text-white/25 text-xs" data-i18n="call_close">Yopish</div>
+    </div>
+</div>
+
+<div class="toast-call" id="toastCall" data-i18n="call_toast">Taklifnomani qabul qiling! 💛</div>
+
+<!-- ===== INVITATION SCREEN ===== -->
+<div id="invitationScreen" class="invitation-screen islamic-bg">
+    <div id="goldParticles" class="fixed inset-0 pointer-events-none z-10 overflow-hidden"></div>
+
+    <!-- Language Switcher -->
+    <div class="lang-switcher">
+        <button class="lang-btn active" id="langUz" onclick="setLanguage('uz')">UZ</button>
+        <button class="lang-btn" id="langRu" onclick="setLanguage('ru')">RU</button>
+        <button class="lang-btn" id="langEn" onclick="setLanguage('en')">EN</button>
+    </div>
+
+    <div class="relative z-20 min-h-screen flex flex-col items-center px-5 py-10 pb-20">
+
+        <!-- Crescent & Star -->
+        <div class="inv-element crescent-glow mb-4" data-delay="200">
+            <svg width="44" height="44" viewBox="0 0 100 100" fill="none">
+                <path d="M50 5C25 5 5 25 5 50s20 45 45 45c-15-8-25-24-25-42s10-34 25-42c0-2 0-4 0-6z" fill="#C9A84C" opacity=".85"/>
+                <circle cx="70" cy="20" r="7" fill="#C9A84C" opacity=".85"/>
+            </svg>
+        </div>
+
+        <!-- Bismillah -->
+        <div class="inv-element mb-2" data-delay="400">
+            <p class="amiri text-3xl text-center gold-shimmer leading-relaxed" dir="rtl">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+        </div>
+
+        <div class="inv-element mb-6" data-delay="600">
+            <div class="ornament-divider"><div class="ornament-line"></div><div class="ornament-diamond"></div><div class="ornament-line"></div></div>
+        </div>
+
+        <!-- Main Card -->
+        <div class="inv-element w-full max-w-md" data-delay="800">
+            <div class="islamic-arch">
+                <div class="corner-decor corner-tl"></div><div class="corner-decor corner-tr"></div>
+                <div class="corner-decor corner-bl"></div><div class="corner-decor corner-br"></div>
+                <div class="text-center mb-5">
+                    <p class="text-amber-700/50 text-[10px] font-semibold tracking-[.3em] uppercase mb-3">✦ <span data-i18n="inv_label">To'y Taklifnomasi</span> ✦</p>
+                    <h2 class="playfair text-xl text-amber-900/80 font-medium leading-relaxed" data-i18n="inv_text">Hurmat bilan sizni<br>to'ymizga taklif qilamiz</h2>
+                </div>
+                <div class="text-center mb-4">
+                    <h3 class="great-vibes text-5xl gold-shimmer tracking-wide" style="line-height:1.3">Begzod</h3>
+                </div>
+                <div class="text-center my-2">
+                    <div class="ornament-divider"><div class="ornament-line"></div><span class="playfair text-2xl text-amber-600/60">&</span><div class="ornament-line"></div></div>
+                </div>
+                <div class="text-center mb-5">
+                    <h3 class="great-vibes text-5xl gold-shimmer tracking-wide" style="line-height:1.3">Muslima</h3>
+                </div>
+                <div class="ornament-divider mb-4"><div class="ornament-line"></div><div class="ornament-diamond"></div><div class="ornament-line"></div></div>
+                <div class="text-center px-1">
+                    <p class="amiri text-lg text-amber-800/70 leading-relaxed mb-1.5" dir="rtl">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا</p>
+                    <p class="text-amber-900/40 text-xs italic leading-relaxed" data-i18n="verse_trans">"Va Uning oyatlaridan — o'zingizdan juftlarni yaratishi dur, ki ularga mutma'in bo'lingiz"</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendar -->
+        <div class="inv-element w-full max-w-xs mt-7" data-delay="1000">
+            <div class="cal-card">
+                <div class="cal-header"><div class="text-xs font-semibold tracking-[.15em] uppercase" data-i18n="cal_month">Iyun 2026</div></div>
+                <div class="cal-grid">
+                    <div class="cal-day-name">Du</div><div class="cal-day-name">Se</div><div class="cal-day-name">Cho</div><div class="cal-day-name">Pa</div><div class="cal-day-name">Ju</div><div class="cal-day-name">Sha</div><div class="cal-day-name">Ya</div>
+                    <div class="cal-day">1</div><div class="cal-day">2</div><div class="cal-day">3</div><div class="cal-day">4</div><div class="cal-day">5</div><div class="cal-day">6</div><div class="cal-day">7</div>
+                    <div class="cal-day">8</div><div class="cal-day">9</div><div class="cal-day">10</div><div class="cal-day">11</div><div class="cal-day">12</div><div class="cal-day">13</div><div class="cal-day">14</div>
+                    <div class="cal-day">15</div><div class="cal-day">16</div><div class="cal-day">17</div><div class="cal-day">18</div><div class="cal-day">19</div><div class="cal-day">20</div><div class="cal-day highlight">21</div>
+                    <div class="cal-day">22</div><div class="cal-day">23</div><div class="cal-day">24</div><div class="cal-day">25</div><div class="cal-day">26</div><div class="cal-day">27</div><div class="cal-day">28</div>
+                    <div class="cal-day">29</div><div class="cal-day">30</div>
+                </div>
+            </div>
+            <div class="text-center mt-1.5"><span class="text-amber-800/40 text-[10px] tracking-wider font-medium" data-i18n="cal_day">YAKSHANBA</span></div>
+        </div>
+
+        <!-- Venue -->
+        <div class="inv-element w-full max-w-md mt-5" data-delay="1200">
+            <div class="venue-card p-5 text-center">
+                <div class="flex items-center justify-center gap-2 mb-2">
+                    <iconify-icon icon="lucide:map-pin" width="18" style="color:#C9A84C"></iconify-icon>
+                    <span class="text-amber-700/60 text-[10px] font-semibold tracking-[.2em] uppercase" data-i18n="venue_label">Manzil</span>
+                </div>
+                <div class="playfair text-xl font-semibold text-amber-900/85 mb-1">"Tabassum" To'yxonasi</div>
+                <div class="text-amber-800/45 text-sm" data-i18n="venue_address">Toshkent shahar, Yakkasaroy tumani</div>
+            </div>
+        </div>
+
+        <!-- Countdown -->
+        <div class="inv-element w-full max-w-md mt-5" data-delay="1400">
+            <div class="text-center mb-2"><span class="text-amber-700/50 text-[10px] font-semibold tracking-[.25em] uppercase" data-i18n="countdown_label">To'ygacha qoldi</span></div>
+            <div class="flex justify-center gap-2.5" id="countdown">
+                <div class="countdown-box"><div class="text-xl font-bold text-amber-900" id="days">---</div><div class="text-amber-600/50 text-[9px] font-semibold tracking-wider uppercase mt-.5" data-i18n="c_d">Kun</div></div>
+                <div class="countdown-box"><div class="text-xl font-bold text-amber-900" id="hours">--</div><div class="text-amber-600/50 text-[9px] font-semibold tracking-wider uppercase mt-.5" data-i18n="c_h">Soat</div></div>
+                <div class="countdown-box"><div class="text-xl font-bold text-amber-900" id="minutes">--</div><div class="text-amber-600/50 text-[9px] font-semibold tracking-wider uppercase mt-.5" data-i18n="c_m">Daq</div></div>
+                <div class="countdown-box"><div class="text-xl font-bold text-amber-900" id="seconds">--</div><div class="text-amber-600/50 text-[9px] font-semibold tracking-wider uppercase mt-.5" data-i18n="c_s">Son</div></div>
+            </div>
+        </div>
+
+        <!-- Map Buttons -->
+        <div class="inv-element w-full max-w-md mt-5 space-y-2.5" data-delay="1500">
+            <a href="https://maps.app.goo.gl/QyCnSA8QnKDwHoZTA" target="_blank" rel="noopener" class="map-btn map-btn-google">
+                <iconify-icon icon="lucide:map" width="18"></iconify-icon> <span data-i18n="map_google">Google Mapsda ochish</span>
+            </a>
+            <a href="https://yandex.com/maps/?text=Tabassum%20to%27yxonasi%20Yakkasaroy%20Toshkent" target="_blank" rel="noopener" class="map-btn map-btn-yandex">
+                <iconify-icon icon="lucide:navigation" width="18"></iconify-icon> <span data-i18n="map_yandex">Yandex Xaritada ochish</span>
+            </a>
+        </div>
+
+        <div class="inv-element mt-8 mb-2" data-delay="1600">
+            <div class="ornament-divider"><div class="ornament-line"></div><div class="ornament-diamond"></div><div class="ornament-line"></div></div>
+        </div>
+
+        <!-- ===== RSVP FORM ===== -->
+        <div class="inv-element w-full max-w-md mt-4" data-delay="1800">
+            <div class="form-card">
+                <div class="text-center mb-5">
+                    <h3 class="playfair text-2xl text-amber-900 font-semibold mb-1" data-i18n="f_title">Ishtirok eting</h3>
+                    <p class="text-amber-800/45 text-sm" data-i18n="f_subtitle">Iltimos, ishtirok etishingizni tasdiqlang</p>
+                </div>
+
+                <div class="text-center mb-6">
+                    <svg class="envelope-img inline-block" width="120" height="90" viewBox="0 0 120 90" fill="none">
+                        <rect x="5" y="15" width="110" height="70" rx="6" fill="#FFF8E7" stroke="#C9A84C" stroke-width="2"/>
+                        <path d="M5 21L60 58L115 21" stroke="#C9A84C" stroke-width="2" fill="none"/>
+                        <path d="M5 15L60 52L115 15" stroke="#D4AF37" stroke-width="1" opacity=".4"/>
+                        <rect x="42" y="35" width="36" height="24" rx="3" fill="#C9A84C" opacity=".12" stroke="#C9A84C" stroke-width="1"/>
+                        <path d="M52 44L56 48L64 40" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+                <form id="rsvpForm" class="space-y-4" onsubmit="return false;">
+                    <div>
+                        <label class="block text-amber-900/60 text-xs font-semibold tracking-wider uppercase mb-1.5" data-i18n="f_name_label">Ism familiyangiz</label>
+                        <input type="text" id="guestName" class="form-input" data-i18n-ph="f_name_ph" placeholder="Ism familiyangizni kiriting" required>
+                    </div>
+                    <div>
+                        <label class="block text-amber-900/60 text-xs font-semibold tracking-wider uppercase mb-1.5" data-i18n="f_phone_label">Telefon raqamingiz</label>
+                        <input type="tel" id="guestPhone" class="form-input" data-i18n-ph="f_phone_ph" placeholder="+998 __ ___ __ __" required>
+                    </div>
+                    <div>
+                        <label class="block text-amber-900/60 text-xs font-semibold tracking-wider uppercase mb-2" data-i18n="f_attend_label">Ishtirok etasizmi?</label>
+                        <div class="radio-group">
+                            <label class="radio-card" id="radioYes" onclick="selectAttendance('ha')">
+                                <input type="radio" name="attendance" value="ha">
+                                <iconify-icon icon="lucide:check-circle" width="18" style="color:#2D9B7E"></iconify-icon>
+                                <span data-i18n="f_yes">Ha</span>
+                            </label>
+                            <label class="radio-card" id="radioNo" onclick="selectAttendance('yoq')">
+                                <input type="radio" name="attendance" value="yoq">
+                                <iconify-icon icon="lucide:x-circle" width="18" style="color:#ef4444"></iconify-icon>
+                                <span data-i18n="f_no">Yo'q</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="guestCountSection" style="display:none">
+                        <label class="block text-amber-900/60 text-xs font-semibold tracking-wider uppercase mb-2" data-i18n="f_guests_label">Mehmonlar soni</label>
+                        <div class="guest-btns">
+                            <button type="button" class="guest-btn" onclick="selectGuests(1)">1</button>
+                            <button type="button" class="guest-btn" onclick="selectGuests(2)">2</button>
+                            <button type="button" class="guest-btn" onclick="selectGuests(3)">3</button>
+                            <button type="button" class="guest-btn" onclick="selectGuests(4)">4</button>
+                            <button type="button" class="guest-btn" onclick="selectGuests(5)" style="width:auto;padding:0 14px">+5</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-amber-900/60 text-xs font-semibold tracking-wider uppercase mb-1.5" data-i18n="f_wish_label">Tabrik so'zi</label>
+                        <textarea id="guestWish" class="form-input" data-i18n-ph="f_wish_ph" placeholder="Kelin-kuyovga tilaklaringiz..." rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn" id="submitBtn" onclick="submitRSVP()">
+                        <span id="btnText" data-i18n="f_submit">Yuborish</span>
+                        <iconify-icon icon="lucide:send" width="16" style="margin-left:6px;vertical-align:middle"></iconify-icon>
+                    </button>
+                </form>
+
+                <div id="successMsg" class="hidden submit-success">
+                    <div class="text-5xl mb-3">🤲</div>
+                    <p class="playfair text-2xl text-amber-900/80 font-semibold mb-1" data-i18n="f_success_title">Rahmat!</p>
+                    <p class="text-amber-800/40 text-sm" data-i18n="f_success_sub">Xabaringiz qabul qilindi</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Blessing -->
+        <div class="inv-element text-center mt-10 mb-6" data-delay="2000">
+            <div class="ornament-divider mb-4"><div class="ornament-line"></div><div class="ornament-diamond"></div><div class="ornament-line"></div></div>
+            <p class="amiri text-xl text-amber-700/60 leading-relaxed mb-1.5" dir="rtl">بَارَكَ ٱللَّهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا</p>
+            <p class="text-amber-800/30 text-xs" data-i18n="blessing_trans">Alloh sizlarni barakali qilsin</p>
+        </div>
+        <div class="inv-element text-center pb-8" data-delay="2200">
+            <p class="text-amber-800/20 text-xs tracking-wider">Begzod & Muslima • 21.06.2026</p>
+        </div>
+    </div>
+</div>
+
+<!-- ===== MUSIC PLAYER ===== -->
+<div class="music-player" id="musicPlayer">
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
+        <iconify-icon icon="lucide:play" width="16" class="play-icon"></iconify-icon>
+        <iconify-icon icon="lucide:pause" width="16" class="pause-icon"></iconify-icon>
+    </button>
+    <div class="music-progress">
+        <div class="music-progress-fill" id="musicProgress"></div>
+    </div>
+</div>
+
+<audio id="bgMusic" loop preload="auto">
+    <source src="nashid.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// ===== TRANSLATIONS =====
+const translations = {
+    uz: {
+        call_label: "To'y taklifnomasi",
+        call_swipe: "Qabul qilish",
+        call_close: "Yopish",
+        call_toast: "Taklifnomani qabul qiling! 💛",
+        inv_label: "To'y Taklifnomasi",
+        inv_text: "Hurmat bilan sizni<br>to'ymizga taklif qilamiz",
+        verse_trans: "\"Va Uning oyatlaridan — o'zingizdan juftlarni yaratishi dur, ki ularga mutma'in bo'lingiz\"",
+        cal_month: "Iyun 2026",
+        cal_day: "YAKSHANBA",
+        venue_label: "Manzil",
+        venue_address: "Toshkent shahar, Yakkasaroy tumani",
+        countdown_label: "To'ygacha qoldi",
+        c_d: "Kun", c_h: "Soat", c_m: "Daq", c_s: "Son",
+        map_google: "Google Mapsda ochish",
+        map_yandex: "Yandex Xaritada ochish",
+        f_title: "Ishtirok eting",
+        f_subtitle: "Iltimos, ishtirok etishingizni tasdiqlang",
+        f_name_label: "Ism familiyangiz",
+        f_name_ph: "Ism familiyangizni kiriting",
+        f_phone_label: "Telefon raqamingiz",
+        f_phone_ph: "+998 __ ___ __ __",
+        f_attend_label: "Ishtirok etasizmi?",
+        f_yes: "Ha", f_no: "Yo'q",
+        f_guests_label: "Mehmonlar soni",
+        f_wish_label: "Tabrik so'zi",
+        f_wish_ph: "Kelin-kuyovga tilaklaringiz...",
+        f_submit: "Yuborish",
+        f_submitting: "Yuborilmoqda...",
+        f_success_title: "Rahmat!",
+        f_success_sub: "Xabaringiz qabul qilindi",
+        f_attend_alert: "Iltimos, ishtirok etasizmi — Ha yoki Yo'qni tanlang",
+        f_error_net: "Internet aloqasini tekshiring.",
+        f_error_gen: "Xatolik yuz berdi. Qaytadan urinib ko'ring.",
+        tg_yes: "Ha", tg_no: "Yo'q"
+    },
+    ru: {
+        call_label: "Приглашение на свадьбу",
+        call_swipe: "Принять",
+        call_close: "Закрыть",
+        call_toast: "Примите приглашение! 💛",
+        inv_label: "Приглашение на свадьбу",
+        inv_text: "С удовольствием приглашаем вас<br>на нашу свадьбу",
+        verse_trans: "\"И среди Его знамений — то, что Он создал для вас супруг из вас самих, чтобы вы находили в них покой\"",
+        cal_month: "Июнь 2026",
+        cal_day: "ВОСКРЕСЕНЬЕ",
+        venue_label: "Место проведения",
+        venue_address: "г. Ташкент, Яккасарайский район",
+        countdown_label: "До свадьбы осталось",
+        c_d: "Дней", c_h: "Часов", c_m: "Мин", c_s: "Сек",
+        map_google: "Открыть в Google Maps",
+        map_yandex: "Открыть в Яндекс Картах",
+        f_title: "Подтвердите участие",
+        f_subtitle: "Пожалуйста, подтвердите свое присутствие",
+        f_name_label: "Ваше имя и фамилия",
+        f_name_ph: "Введите имя и фамилию",
+        f_phone_label: "Ваш номер телефона",
+        f_phone_ph: "+998 __ ___ __ __",
+        f_attend_label: "Вы придете?",
+        f_yes: "Да", f_no: "Нет",
+        f_guests_label: "Количество гостей",
+        f_wish_label: "Поздравление",
+        f_wish_ph: "Ваши пожелания молодоженам...",
+        f_submit: "Отправить",
+        f_submitting: "Отправка...",
+        f_success_title: "Спасибо!",
+        f_success_sub: "Ваше сообщение получено",
+        f_attend_alert: "Пожалуйста, укажите, придете ли вы",
+        f_error_net: "Проверьте подключение к интернету.",
+        f_error_gen: "Произошла ошибка. Попробуйте снова.",
+        tg_yes: "Да", tg_no: "Нет"
+    },
+    en: {
+        call_label: "Wedding Invitation",
+        call_swipe: "Accept",
+        call_close: "Close",
+        call_toast: "Please accept the invitation! 💛",
+        inv_label: "Wedding Invitation",
+        inv_text: "We cordially invite you<br>to our wedding",
+        verse_trans: "\"And among His signs is that He created for you mates from among yourselves, that you may dwell in tranquility with them\"",
+        cal_month: "June 2026",
+        cal_day: "SUNDAY",
+        venue_label: "Venue",
+        venue_address: "Tashkent, Yakkasaray district",
+        countdown_label: "Countdown to wedding",
+        c_d: "Days", c_h: "Hours", c_m: "Min", c_s: "Sec",
+        map_google: "Open in Google Maps",
+        map_yandex: "Open in Yandex Maps",
+        f_title: "Confirm Attendance",
+        f_subtitle: "Please confirm your attendance",
+        f_name_label: "Your Full Name",
+        f_name_ph: "Enter your full name",
+        f_phone_label: "Your Phone Number",
+        f_phone_ph: "+998 __ ___ __ __",
+        f_attend_label: "Will you attend?",
+        f_yes: "Yes", f_no: "No",
+        f_guests_label: "Number of Guests",
+        f_wish_label: "Congratulatory Message",
+        f_wish_ph: "Your wishes for the couple...",
+        f_submit: "Submit",
+        f_submitting: "Submitting...",
+        f_success_title: "Thank you!",
+        f_success_sub: "Your message has been received",
+        f_attend_alert: "Please select if you will attend",
+        f_error_net: "Please check your internet connection.",
+        f_error_gen: "An error occurred. Please try again.",
+        tg_yes: "Yes", tg_no: "No"
+    }
+};
+
+let currentLang = 'uz';
+
+function setLanguage(lang) {
+    currentLang = lang;
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('lang' + lang.charAt(0).toUpperCase() + lang.slice(1)).classList.add('active');
+
+    const t = translations[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) el.innerHTML = t[key];
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+        const key = el.getAttribute('data-i18n-ph');
+        if (t[key]) el.placeholder = t[key];
+    });
+}
+
+// ===== TIME =====
+function updateTime(){const n=new Date();document.getElementById('currentTime').textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')}
+updateTime();setInterval(updateTime,1000);
+
+// ===== STARS =====
+(function(){const c=document.getElementById('starsContainer');for(let i=0;i<50;i++){const s=document.createElement('div');s.className='star';s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${1+Math.random()*2}px;height:${1+Math.random()*2}px;--dur:${2+Math.random()*4}s;animation-delay:${Math.random()*3}s;`;c.appendChild(s)}})();
+
+// ===== SWIPE =====
+const swipeBtn=document.getElementById('swipeBtn'),swipeTrack=document.getElementById('swipeTrack'),swipeFill=document.getElementById('swipeFill'),swipeText=document.getElementById('swipeText');
+let startX=0,curX=0,dragging=false,maxSwipe=0;
+function getX(e){return e.touches?e.touches[0].clientX:e.clientX}
+
+swipeBtn.addEventListener('touchstart',e=>{dragging=true;startX=getX(e);maxSwipe=swipeTrack.offsetWidth-swipeBtn.offsetWidth-8;swipeBtn.style.transition='none';swipeFill.style.transition='none'},{passive:true});
+swipeBtn.addEventListener('touchmove',e=>{if(!dragging)return;e.preventDefault();curX=getX(e)-startX;if(curX<0)curX=0;if(curX>maxSwipe)curX=maxSwipe;swipeBtn.style.transform=`translateX(${curX}px)`;const p=curX/maxSwipe;swipeFill.style.width=(p*100)+'%';swipeText.style.opacity=1-p*2.5;swipeBtn.classList.toggle('reached',p>.8)},{passive:false});
+swipeBtn.addEventListener('touchend',()=>{if(!dragging)return;dragging=false;if(curX/maxSwipe>.8){showInvitation()}else{resetSwipe()}curX=0});
+
+swipeBtn.addEventListener('mousedown',e=>{dragging=true;startX=getX(e);maxSwipe=swipeTrack.offsetWidth-swipeBtn.offsetWidth-8;swipeBtn.style.transition='none';swipeFill.style.transition='none'});
+document.addEventListener('mousemove',e=>{if(!dragging)return;curX=getX(e)-startX;if(curX<0)curX=0;if(curX>maxSwipe)curX=maxSwipe;swipeBtn.style.transform=`translateX(${curX}px)`;const p=curX/maxSwipe;swipeFill.style.width=(p*100)+'%';swipeText.style.opacity=1-p*2.5;swipeBtn.classList.toggle('reached',p>.8)});
+document.addEventListener('mouseup',()=>{if(!dragging)return;dragging=false;if(curX/maxSwipe>.8){showInvitation()}else{resetSwipe()}curX=0});
+
+function resetSwipe(){swipeBtn.style.transition='transform .4s cubic-bezier(.4,0,.2,1)';swipeFill.style.transition='width .4s cubic-bezier(.4,0,.2,1)';swipeBtn.style.transform='translateX(0)';swipeFill.style.width='0%';swipeText.style.opacity=1;swipeBtn.classList.remove('reached')}
+
+document.getElementById('declineBtn').addEventListener('click',()=>{const t=document.getElementById('toastCall');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000)});
+
+// ===== SHOW INVITATION =====
+function showInvitation(){
+    const f=document.createElement('div');f.className='flash-overlay';document.body.appendChild(f);setTimeout(()=>f.remove(),1200);
+    document.getElementById('callScreen').classList.add('hide');
+    setTimeout(()=>{
+        const inv=document.getElementById('invitationScreen');inv.classList.add('show');
+        inv.querySelectorAll('.inv-element').forEach(el=>{setTimeout(()=>el.classList.add('visible'),parseInt(el.dataset.delay)||0)});
+        createGoldParticles();
+        updateCountdown();setInterval(updateCountdown,1000);
+        document.getElementById('musicPlayer').classList.add('show');
+        
+        // Auto-play music on user interaction
+        const audio=document.getElementById('bgMusic');
+        audio.play().then(()=>{document.getElementById('musicBtn').classList.add('playing');musicPlaying=true}).catch(()=>{});
+    },400);
+}
+
+// ===== GOLD PARTICLES =====
+function createGoldParticles(){const c=document.getElementById('goldParticles');for(let i=0;i<18;i++){const p=document.createElement('div');p.className='gold-particle';const sz=2+Math.random()*3;p.style.cssText=`left:${Math.random()*100}%;width:${sz}px;height:${sz}px;animation-delay:${Math.random()*5}s;animation-duration:${5+Math.random()*5}s;`;c.appendChild(p)}}
+
+// ===== COUNTDOWN =====
+function updateCountdown(){const diff=new Date('2026-06-21T00:00:00+05:00')-new Date();if(diff<=0){['days','hours','minutes','seconds'].forEach(id=>document.getElementById(id).textContent='0');return}document.getElementById('days').textContent=Math.floor(diff/864e5);document.getElementById('hours').textContent=String(Math.floor(diff%864e5/36e5)).padStart(2,'0');document.getElementById('minutes').textContent=String(Math.floor(diff%36e5/6e4)).padStart(2,'0');document.getElementById('seconds').textContent=String(Math.floor(diff%6e4/1e3)).padStart(2,'0')}
+
+// ===== MUSIC PLAYER =====
+let musicPlaying = false;
+function toggleMusic(){
+    const audio=document.getElementById('bgMusic'),btn=document.getElementById('musicBtn');
+    if(musicPlaying){audio.pause();btn.classList.remove('playing');musicPlaying=false}
+    else{audio.play().then(()=>{btn.classList.add('playing');musicPlaying=true}).catch(()=>{})}
+}
+const bgMusic=document.getElementById('bgMusic');
+bgMusic.addEventListener('timeupdate',()=>{if(bgMusic.duration){const p=(bgMusic.currentTime/bgMusic.duration)*100;document.getElementById('musicProgress').style.width=p+'%'}});
+
+// ===== RSVP FORM LOGIC =====
+let attendance = '';
+let guestCount = 0;
+
+function selectAttendance(val){
+    attendance = val;
+    document.getElementById('radioYes').classList.toggle('active', val==='ha');
+    document.getElementById('radioNo').classList.toggle('active', val==='yoq');
+    document.getElementById('guestCountSection').style.display = val==='ha' ? 'block' : 'none';
+}
+
+function selectGuests(num){
+    guestCount = num;
+    document.querySelectorAll('.guest-btn').forEach((btn,i)=>{
+        btn.classList.toggle('active', i===num-1 || (num===5&&i===4));
+    });
+}
+
+// ===== SUBMIT RSVP =====
+function submitRSVP(){
+    const t = translations[currentLang];
+    const nameEl=document.getElementById('guestName'),phoneEl=document.getElementById('guestPhone');
+    nameEl.classList.remove('error');phoneEl.classList.remove('error');
+    let valid=true;
+    if(!nameEl.value.trim()){nameEl.classList.add('error');valid=false}
+    if(!phoneEl.value.trim()){phoneEl.classList.add('error');valid=false}
+    if(!attendance){alert(t.f_attend_alert);return}
+    if(!valid)return;
+
+    const btn=document.getElementById('submitBtn');
+    btn.disabled=true;
+    document.getElementById('btnText').textContent=t.f_submitting;
+
+    const TOKEN='7864881637:AAEWD9R2Ik79n_5v4BhnKJDI8HcjR5LY_H4';
+    const CHAT_ID='934293078';
+
+    const attendText = attendance==='ha' ? '✅ ' + t.tg_yes : '❌ ' + t.tg_no;
+    const countText = attendance==='ha' ? guestCount : '—';
+
+    const text=`💌 *To'y taklifnomasi javobi*\n\n👤 *${t.f_name_label}:* ${nameEl.value.trim()}\n📱 *${t.f_phone_label}:* ${phoneEl.value.trim()}\n🎟 *${t.f_attend_label}:* ${attendText}\n👥 *${t.f_guests_label}:* ${countText}\n💬 *${t.f_wish_label}:* ${document.getElementById('guestWish').value.trim()||'—'}\n\n— *Begzod \& Muslima to'yi*`;
+
+    fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`,{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({chat_id:CHAT_ID,text:text,parse_mode:'Markdown'})
+    })
+    .then(r=>r.json())
+    .then(data=>{
+        if(data.ok){document.getElementById('rsvpForm').classList.add('hidden');document.getElementById('successMsg').classList.remove('hidden')}
+        else{btn.disabled=false;document.getElementById('btnText').textContent=t.f_submit;alert(t.f_error_gen)}
+    })
+    .catch(()=>{btn.disabled=false;document.getElementById('btnText').textContent=t.f_submit;alert(t.f_error_net)});
+}
+
+document.querySelectorAll('.form-input').forEach(el=>{el.addEventListener('focus',()=>el.classList.remove('error'))});
+</script>
+
+</body>
+</html>
